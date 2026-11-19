@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<!-- ═══════════════════════════════════════════════════════════════
+     accounting.html — your relevant coursework (Accounting + Business Analytics)
+
+     Opens when someone clicks "Accounting" under your name on the homepage.
+
+       • Looks: home.css (shared header/footer/colours) + coursework.css (this layout)
+       • Every "TODO" below is placeholder text to replace with your own.
+
+     Sections, top to bottom:
+       1. Header         same as the homepage; your name links back home
+       2. Title block    label, big title, short intro
+       3. Courses        one card per course
+       4. Footer
+     ═══════════════════════════════════════════════════════════════ -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Text on the browser tab. -->
+  <title>Relevant Coursework · Rongpeng Zhou</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pangolin&family=Patrick+Hand&display=swap" rel="stylesheet">
+  <!-- home.css first (shared styles), then coursework.css (this page's layout). Keep this order. -->
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/coursework.css">
+</head>
+<body>
+
+  <main class="page">
+
+    <!-- ───────── 1. Header ─────────
+         Same as the homepage, except your name is a link home.
+         If you change the nav on the homepage, change it here too. -->
+    <header class="top">
+      <!-- Top bar: small name (links home) + nav. The big name + subtitle
+           from the homepage are left out on purpose on this page. -->
+      <div class="topbar">
+        <a class="home-link" href="index.html">Rongpeng Zhou</a>
+        <nav class="nav" aria-label="Main">
+          <a href="about.html">About</a>
+          <a href="work.html">Work</a>
+          <a href="play.html">Play</a>
+          <!-- Contact dropdown: clicking "Contact" opens a small menu with these
+               links (the open/close is in js/nav.js, styles in section 3 of home.css).
+               To add a link, copy one <a> line inside .contact-list. -->
+          <div class="contact-menu">
+            <button class="contact-toggle" type="button" aria-expanded="false" aria-controls="contact-list">Contact <span class="caret" aria-hidden="true">▾</span></button>
+            <div class="contact-list" id="contact-list" hidden>
+              <a href="mailto:ares.rongpeng.zhou07@gmail.com">Email</a>
+              <a href="https://www.linkedin.com/in/zhourongpeng" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <article class="coursework">
+
+      <!-- ───────── 2. Title block ───────── -->
+      <!-- The <u> gives the title the highlighter band. Clicking the title
+           goes back to the homepage (this replaced the "← back home" link). -->
+      <h1 class="page-title"><a class="title-home" href="index.html" title="Back home"><u>Relevant Coursework</u></a></h1>
+      <p class="page-kicker">Accounting + Business Analytics</p>
+      <p class="page-lede">
+      </p>
+
+      <!-- ───────── Filters ─────────
+           These buttons are wired up by js/coursework.js; you don't need to
+           edit them. They read the data-subject
+           on each course card below.
+           Tip: a link to accounting.html#business-analytics opens this page
+           with "Business Analytics" already selected (#accounting works too). -->
+      <div class="filters" aria-label="Filter courses">
+        <div class="filter-group" role="group" aria-label="Subject">
+          <button class="chip" type="button" data-filter="subject" data-value="all" aria-pressed="true">All</button>
+          <button class="chip" type="button" data-filter="subject" data-value="accounting" aria-pressed="false">Accounting</button>
+          <button class="chip" type="button" data-filter="subject" data-value="business-analytics" aria-pressed="false">Business Analytics</button>
+        </div>
+        <button class="sort-toggle" type="button" id="sort-toggle" data-order="newest">Sort: Newest first</button>
+      </div>
+
+      <!-- ───────── 3. Courses ─────────
+           Each <li class="course"> is one course card. To add a course, copy a
+           whole <li class="course">…</li> block and change the text. To remove
+           one, delete its block.
+
+           On each <li class="course"> (used by the filter buttons):
+             data-subject   accounting  or  business-analytics
+
+           Sorting (newest/oldest) reads the course-term text, e.g.
+           "Fall, 2025", so just type the term and it sorts itself.
+           Use one of: Winter, Spring, Summer, Fall, then the year.
+
+           Inside each card:
+             course-code    e.g. ACCT 2050 (shown top left)
+             course-term    e.g. Fall 2025 (shown top right)
+             course-name    the course title
+             course-grade   your grade, e.g. A or A- (shown on the right).
+                            Replace only the "TODO"; keep the hidden
+                            "Grade: " part, which screen readers read aloud.
+
+           Business Analytics example (copy, paste, fill in):
+             <li class="course" data-subject="business-analytics">
+               <div class="course-top">
+                 <span class="course-code">MSBA 0000</span>
+                 <span class="course-term">Fall, 2026</span>
+               </div>
+               <div class="course-main">
+                 <h2 class="course-name">Course name</h2>
+                 <span class="course-grade"><span class="sr-only">Grade: </span>A</span>
+               </div>
+             </li>
+           The order you list them in doesn't matter; the page sorts them. -->
+      <ul class="course-list" id="course-list">
+
+        <li class="course" data-subject="accounting">
+          <div class="course-top">
+            <span class="course-code">ACCT 2051</span>
+            <span class="course-term">Winter, 2026</span>
+          </div>
+          <div class="course-main">
+            <h2 class="course-name">Intro to Financial Reporting</h2>
+            <span class="course-grade"><span class="sr-only">Grade: </span>A</span>
+          </div>
+        </li>
+
+        <li class="course" data-subject="accounting">
+          <div class="course-top">
+            <span class="course-code">ACCT 3001</span>
+            <span class="course-term">Fall, 2026</span>
+          </div>
+          <div class="course-main">
+            <h2 class="course-name">Strategic Management Accounting</h2>
+            <span class="course-grade"><span class="sr-only">Grade: </span>In Progress</span>
+          </div>
+        </li>
+
+        <li class="course" data-subject="accounting">
+          <div class="course-top">
+            <span class="course-code">BLAW 3062</span>
+            <span class="course-term">Fall, 2026</span>
+          </div>
+          <div class="course-main">
+            <h2 class="course-name">Contract Law and Corporate Regulation</h2>
+            <span class="course-grade"><span class="sr-only">Grade: </span>A</span>
+          </div>
+        </li>
+
+        <li class="course" data-subject="accounting">
+          <div class="course-top">
+            <span class="course-code">ACCT 5101</span>
+            <span class="course-term">Summer, 2026</span>
+          </div>
+          <div class="course-main">
+            <h2 class="course-name">Intermediate Accounting I</h2>
+            <span class="course-grade"><span class="sr-only">Grade: </span>A</span>
+          </div>
+        </li>
+
+        <li class="course" data-subject="business-analytics">
+          <div class="course-top">
+            <span class="course-code">BA 2551</span>
+            <span class="course-term">Fall, 2025</span>
+          </div>
+          <div class="course-main">
+            <h2 class="course-name">Business Statistics in R</h2>
+            <span class="course-grade"><span class="sr-only">Grade: </span>A</span>
+          </div>
+        </li>
+
+        <li class="course" data-subject="business-analytics">
+          <div class="course-top">
+            <span class="course-code">BA 3551</span>
+            <span class="course-term">Fall, 2026</span>
+          </div>
+          <div class="course-main">
+            <h2 class="course-name">Business Analytics</h2>
+            <span class="course-grade"><span class="sr-only">Grade: </span>In Progress</span>
+          </div>
+        </li>
+
+        <li class="course" data-subject="business-analytics">
+          <div class="course-top">
+            <span class="course-code">BA 2051</span>
+            <span class="course-term">Fall, 2025</span>
+          </div>
+          <div class="course-main">
+            <h2 class="course-name">Modeling Business Scenarios In Excel</h2>
+            <span class="course-grade"><span class="sr-only">Grade: </span>A</span>
+          </div>
+        </li>
+
+        <li class="course" data-subject="business-analytics">
+          <div class="course-top">
+            <span class="course-code">IDSC 3101</span>
+            <span class="course-term">Fall, 2026</span>
+          </div>
+          <div class="course-main">
+            <h2 class="course-name">Introduction to Programming</h2>
+            <span class="course-grade"><span class="sr-only">Grade: </span>A</span>
+          </div>
+        </li>
+      </ul>
+
+      <!-- Shown by js/coursework.js when no course matches the filters. -->
+      <p class="course-empty" id="course-empty" hidden>Nothing here yet. More courses coming soon!</p>
+
+    </article>
+
+  </main>
+
+  <!-- ───────── 4. Footer ─────────
+       Same as the homepage. If you change the footer there, change it here too. -->
+  <footer class="site-footer">
+    <div class="footer-top">
+      <p class="footer-name">Rongpeng Zhou</p>
+
+      <div class="footer-cols">
+        <div class="footer-col">
+          <p class="footer-label">Let's Connect</p>
+          <a href="mailto:ares.rongpeng.zhou07@gmail.com">Email</a>
+          <a href="https://www.linkedin.com/in/zhourongpeng" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a>
+        </div>
+
+        <div class="footer-col">
+          <p class="footer-label">Pages</p>
+          <a href="about.html">About</a>
+          <a href="work.html">Work</a>
+          <a href="play.html">Play</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-note">Built with unhealthy amounts of coffee &amp; love</p>
+      <p class="footer-note">© <span id="year">2026</span> Rongpeng Zhou</p>
+    </div>
+  </footer>
+
+  <!-- Keeps the © year current. (This page doesn't need home.js.) -->
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+  <!-- Course filters + sorting. -->
+  <script src="js/coursework.js"></script>
+  <script src="js/nav.js"></script>
+</body>
+</html>

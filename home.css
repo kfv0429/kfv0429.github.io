@@ -1,0 +1,1002 @@
+/* ═══════════════════════════════════════════════════════════════
+   home.css — styles for the homepage (index.html)
+
+   HOW THIS FILE IS ORGANISED (top to bottom):
+     1. Reset + colour variables     ← change site colours here
+     2. Page wrapper + fade-in animation
+     3. Header (name, subtitle, nav)
+     4. Intro sentence
+     5. The five things (icon buttons)
+     6. Stage: photo collage + detail card
+     7. Mobile layout (screens ≤ 640px)
+     8. Footer
+     9. Reduced-motion settings
+    10. Highlighter band (name + intro words)
+    11. Clickable intro words (hover + selected effect)
+    12. Clickable "Accounting" in the subtitle (hover effect)
+
+   QUICK TIPS
+   - "px" = fixed size, "rem" = relative to the base font size (1rem ≈ 16px),
+     "em" = relative to the current text size.
+   - Anything written as var(--something) reads a colour/value from :root
+     below, so changing it there updates it everywhere.
+   - If you change a size for desktop, check whether the same thing is
+     also set again inside the Mobile section (7) further down.
+   ═══════════════════════════════════════════════════════════════ */
+
+
+/* ── 1. Reset ──────────────────────────────────────────────────
+   Removes the browser's default margins/padding so spacing is only
+   what this file sets. You shouldn't need to touch this. */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Colour + shape variables used throughout the page.
+   CHANGE HERE to restyle the whole site at once. */
+:root {
+  --bg: #F5F0E8;          /* page background ("oat milk") on EVERY page: body, footer,
+                             Contact dropdown, selected icon. Change it here only. */
+  --ink: #1a1a1a;         /* main text colour (near-black) */
+  --muted: #777;          /* grey for secondary text (subtitle, labels) */
+  --line: #e6e6e6;        /* light grey for divider lines */
+  --accent: #7a0019;      /* UMN maroon: hover colours, selected icon */
+  --underline: #B76E79;   /* colour of EVERY underline: highlighter band, nav + footer
+                             hover lines, quote line on the trait pages. Change it here only. */
+  --band: rgba(183, 110, 121, 0.55);  /* the highlighter band under words: --underline, see-through.
+                                         Raise 0.55 (up to 1) for a stronger band. */
+  --frame: #1f1f23;       /* (not used right now) dark frame colour for the collage */
+  --radius: 10px;         /* corner roundness of the detail card */
+}
+
+/* Base text for the whole page. font-size here is the default body size. */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;       /* space between lines of text (1.6 × font size) */
+  color: var(--ink);
+  background: var(--bg);  /* page background: set by --bg at the top of this file */
+}
+
+/* Stops images from overflowing their containers. */
+img { display: block; max-width: 100%; }
+
+
+/* ── 2. Page wrapper ───────────────────────────────────────────
+   .page is the <main> element that holds everything above the footer. */
+.page {
+  max-width: 1280px;             /* how wide the content can get; raise for a wider site */
+  margin: 0 auto;                /* centres the content horizontally */
+  padding: 3rem 1.5rem 4rem;     /* space: top, left/right, bottom */
+  animation: rise 0.7s ease both;/* the fade-up when the page loads; delete this line to remove it */
+}
+
+/* The page-load animation: starts invisible and 20px lower, ends in place. */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
+}
+
+
+/* ── 3. Header ─────────────────────────────────────────────────
+   A top bar (small name on the left, nav links on the right), then
+   your big underlined name + subtitle underneath it. */
+.topbar {
+  display: flex;
+  justify-content: space-between;  /* pushes small name left and nav right */
+  align-items: baseline;
+  gap: 1.5rem;
+}
+
+/* Small name in the top-left corner. Clicking it goes to the homepage. */
+.home-link {
+  font-family: "Pangolin", cursive;
+  font-size: 20px;
+  color: var(--ink);
+  text-decoration: none;
+}
+.home-link:hover { color: var(--accent); }
+
+/* The big name block: margin-top = how far it sits below the top bar. */
+.who { margin-top: 3rem; }
+
+/* Your name at the top. The highlighter band under it is in section 10. */
+.name {
+  font-family: "Pangolin", cursive;  /* handwritten font, loaded from Google Fonts in index.html */
+  font-size: 44px;                   /* desktop size; mobile size is in section 7 */
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+/* Your name is a clickable button (it swaps to your Chinese name; see home.js).
+   This strips the default button look so it still looks like plain text. */
+.name-toggle {
+  all: unset;
+  cursor: pointer;
+  display: inline-block;
+  transition: opacity 0.2s ease, transform 0.2s ease;  /* speed of the swap fade */
+}
+/* Small tilt on hover as a hint that it's clickable, like the icons.
+   Change -1.5deg to 0deg to turn it off. */
+.name-toggle:hover { transform: rotate(-1.5deg); }
+/* Keyboard focus ring (for people navigating with Tab). */
+.name-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
+/* Added by home.js mid-swap: the name fades out and lifts slightly, then comes back. */
+.name-toggle.is-swapping { opacity: 0; transform: translateY(-6px); }
+/* Font for your Chinese name. ZCOOL KuaiLe is loaded in index.html; the others
+   are built-in fallbacks (Mac, Windows). Other Google Fonts options to try:
+   "Ma Shan Zheng" (brush calligraphy), "Long Cang" (casual handwriting).
+   Note: ZCOOL KuaiLe only covers simplified characters; anything else falls back. */
+.name [lang="zh"] {
+  font-family: "ZCOOL KuaiLe", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+/* "Accounting + Business Analytics @ University of Minnesota" */
+.study {
+  margin-top: 6px;     /* gap between your name and this line */
+  font-size: 17px;
+  color: var(--muted);
+}
+
+/* Nav links: About / Work / Play / Contact */
+.nav {
+  display: flex;
+  gap: 22px;           /* space between links */
+}
+
+.nav a {
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 15px;
+  position: relative;  /* needed for the animated underline below */
+}
+
+/* Animated underline on nav links: a thin maroon line that grows from
+   left to right on hover. height = thickness, bottom = distance below text. */
+.nav a::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -2px;
+  height: 1.5px;
+  background: var(--underline);
+  transform: scaleX(0);           /* starts at zero width */
+  transform-origin: left;         /* grows from the left; use "center" to grow from the middle */
+  transition: transform 0.25s ease;/* speed of the grow animation */
+}
+
+.nav a:hover { color: var(--accent); }
+.nav a:hover::after { transform: scaleX(1); }
+
+/* "Contact" dropdown in the nav. The button looks like the other nav
+   links; clicking it opens a small card with Email + LinkedIn under it. */
+.contact-menu { position: relative; }
+
+.contact-toggle {
+  all: unset;
+  cursor: pointer;
+  font-size: 15px;
+  color: var(--ink);
+  position: relative;               /* for the underline, same as the links */
+}
+.contact-toggle::after {            /* same grow-in underline as the nav links */
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -2px;
+  height: 1.5px;
+  background: var(--underline);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+.contact-toggle:hover,
+.contact-toggle[aria-expanded="true"] { color: var(--accent); }
+.contact-toggle:hover::after,
+.contact-toggle[aria-expanded="true"]::after { transform: scaleX(1); }
+.contact-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+/* The little ▾ arrow flips when the menu is open. */
+.caret { display: inline-block; font-size: 1em; transition: transform 0.2s ease; }
+.contact-toggle[aria-expanded="true"] .caret { transform: rotate(180deg); }
+
+/* The dropdown card. right: 0 lines it up with the right edge of "Contact". */
+.contact-list {
+  position: absolute;
+  top: calc(100% + 10px);           /* 10px gap below "Contact" */
+  right: 0;
+  z-index: 20;                      /* sits above the photos */
+  min-width: 150px;
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+  background: var(--bg);
+  border: 1.5px solid var(--ink);
+  border-radius: 12px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+}
+.contact-list[hidden] { display: none; }
+.nav .contact-list a {
+  padding: 8px 12px;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+.nav .contact-list a::after { display: none; }   /* no underline inside the card */
+.nav .contact-list a:hover { background: #fbf3f4; }
+
+
+/* ── 4. Intro ──────────────────────────────────────────────────
+   Two parts: a big headline ("A problem solver, listener, and
+   storyteller", the .lead) and a smaller grey follow-up line
+   ("making genuine, meaningful connections…", the rest of .intro). */
+.intro {
+  margin: 3.5rem 0 1rem;    /* space above and below (below is small so the hint sits close) */
+  font-size: 20px;          /* size of the smaller follow-up line */
+  line-height: 1.5;
+  color: #444;              /* colour of the follow-up line (slightly lighter than the headline) */
+  max-width: 30rem;         /* how wide the intro can get before wrapping */
+}
+/* The headline part, in Instrument Serif (loaded in index.html). */
+.intro .lead {
+  display: block;           /* puts the follow-up on its own line underneath */
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 44px;          /* headline size; mobile size is in section 7 */
+  line-height: 1.25;
+  color: var(--ink);
+  margin-bottom: 12px;      /* gap between the headline and the follow-up */
+}
+/* Words marked class="fancy" in index.html (currently just "storyteller"):
+   the slanted (italic) version of the headline font.
+   To make it upright like the rest, delete this rule. */
+.intro .fancy {
+  font-style: italic;
+}
+
+/* The "try tapping anything underlined" hint under the intro.
+   NOT USED RIGHT NOW: it's commented out in index.html (the icons wiggle
+   instead). These rules only matter if you bring it back. */
+.hint {
+  font-family: "Patrick Hand", cursive;
+  font-size: 18px;
+  color: var(--muted);
+  margin-bottom: 2.5rem;
+}
+
+
+/* ── 5. The five things ────────────────────────────────────────
+   The row of five round icons. Every 2nd one is pushed down to make
+   the zig-zag (up, down, up, down, up). */
+.five {
+  list-style: none;                /* removes bullet points */
+  display: flex;
+  justify-content: space-between;  /* spreads the icons evenly across the width */
+  padding-bottom: 56px;            /* room for the lowered items; keep equal to the translateY below */
+  margin-top: 2.5rem;              /* gap between the intro and the icons */
+  margin-bottom: 1.5rem;           /* gap between the icons and the collage */
+}
+
+/* How far the 2nd and 4th icons drop. Set to 0 for a straight row
+   (and set padding-bottom above to 0 as well). */
+.five li:nth-child(even) { transform: translateY(56px); }
+
+/* The "I'm clickable" wiggle: when the page loads, each emoji gives one
+   quick wiggle, one after another, then stops for good.
+   - 0.6s = how long each wiggle lasts
+   - the delays below = when each icon starts (they go left to right)
+   - to turn it off, delete the "animation:" line
+   Visitors with "reduce motion" switched on don't see it (section 9). */
+.icon-ph,
+.icon img {
+  display: inline-block;           /* needed so the emoji can rotate */
+  animation: wiggle 0.6s ease-in-out both;
+  animation-delay: 1s;
+}
+.five li:nth-child(2) .icon-ph,
+.five li:nth-child(2) .icon img { animation-delay: 1.12s; }
+.five li:nth-child(3) .icon-ph,
+.five li:nth-child(3) .icon img { animation-delay: 1.24s; }
+.five li:nth-child(4) .icon-ph,
+.five li:nth-child(4) .icon img { animation-delay: 1.36s; }
+.five li:nth-child(5) .icon-ph,
+.five li:nth-child(5) .icon img { animation-delay: 1.48s; }
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0) scale(1); }
+  20%      { transform: rotate(-14deg) scale(1.12); }
+  40%      { transform: rotate(10deg) scale(1.12); }
+  60%      { transform: rotate(-6deg) scale(1.06); }
+  80%      { transform: rotate(3deg) scale(1.02); }
+}
+
+/* Each icon is a <button>. This strips default button styling. */
+.thing {
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Each icon. Normally it's just the emoji with a highlighter band under it
+   (like the underlined words). When it's clicked, the band is swapped for
+   the maroon circle (see "Selected icon" below). */
+.icon {
+  width: 84px;                  /* circle size; mobile size is in section 7 */
+  height: 84px;
+  border-radius: 50%;           /* makes it a circle; use e.g. 16px for a rounded square */
+  display: grid;
+  place-items: center;          /* centres the emoji/image in the circle */
+  border: 2px solid transparent; /* invisible until selected (keeps the size the same) */
+  /* No underline under the emoji. To bring one back, replace "transparent" with:
+       linear-gradient(var(--underline), var(--underline)) 50% 74% / 55% 5px no-repeat */
+  background: transparent;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Placeholder emoji size (☕ 📷 🎧 🍦 🏸). */
+.icon-ph { font-size: 34px; line-height: 1; }
+
+/* Used once you swap the emojis for real <img> icons.
+   85% = how much of the circle the image fills. */
+.icon img {
+  width: 85%;
+  height: 85%;
+  object-fit: contain;
+}
+/* Racket size. 85% matches the other icons; about 72% keeps its head and
+   grip fully inside the circle when it's selected. */
+.thing[data-key="badminton"] .icon img { width: 85%; height: 85%; }
+
+/* The name of each icon (e.g. "coffee"). Hidden normally; on computers
+   it fades in under the icon when the mouse hovers over it, like a
+   little handwritten note. Phones (no hover) never show it.
+   Screen readers always read it, so keep the text in index.html. */
+.thing { position: relative; }       /* the name is positioned under its icon */
+.label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+@media (hover: hover) {
+  .label {
+    width: auto;
+    height: auto;
+    clip: auto;
+    overflow: visible;
+    top: 100%;                       /* just under the icon */
+    left: 50%;
+    transform: translate(-50%, -2px);
+    margin-top: 4px;
+    font-family: "Patrick Hand", cursive;
+    font-size: 17px;
+    color: var(--accent);
+    opacity: 0;                      /* invisible until hover */
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .thing:hover .label,
+  .thing:focus-visible .label {
+    opacity: 1;
+    transform: translate(-50%, 2px); /* slides down a touch as it appears */
+  }
+}
+
+/* Hover: the circle lifts 4px and tilts 4°. Change the numbers to adjust. */
+.thing:hover .icon { transform: translateY(-4px) rotate(-4deg); }
+/* Keyboard focus ring (for people navigating with Tab). Keep this for accessibility. */
+.thing:focus-visible .icon { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+/* Selected icon (the one whose card is open): the band disappears and a
+   maroon circle appears, with a soft shadow, slightly bigger.
+   home.js sets aria-pressed="true" on the clicked one. */
+.thing[aria-pressed="true"] .icon {
+  border: 2px solid var(--accent);
+  background: var(--bg);        /* also removes the band */
+  box-shadow: 0 8px 22px rgba(122, 0, 25, 0.18);
+  transform: translateY(-4px) scale(1.06);
+}
+
+
+/* ── 6. Stage (collage ⇄ detail card) ──────────────────────────
+   The area under the icons. Shows the photo collage by default, or a
+   detail card when an icon is clicked. home.js handles the swap. */
+.stage {
+  transition: opacity 0.22s ease, height 0.35s ease;  /* fade + resize speed */
+  overflow: hidden;
+}
+/* Added by home.js briefly while switching, to fade the stage out. */
+.stage.is-fading { opacity: 0; }
+
+/* Makes the HTML "hidden" attribute always win. Don't remove. */
+[hidden] { display: none !important; }
+
+/* Collage: 6 tiles, always fills the rectangle.
+   HOW THE LAYOUT WORKS: grid-template-areas is a little map of the grid.
+   Each letter is one photo; repeating a letter makes that photo span
+   multiple cells. Desktop is 4 columns × 3 rows:
+       a a b c      a = big photo (2×2)
+       a a d c      c = tall photo on the right (1×3)
+       e f f c      f = wide photo (2×1)
+   To use a different number of photos, change grid-template-areas
+   and add/remove the matching .tile:nth-child rules below. */
+.collage {
+  display: grid;
+  gap: 2px;                     /* space between photos (was 8px); 0 = no gaps */
+  /* No frame around the photos. To bring the dark frame back, add:
+       padding: 8px; background: var(--frame); border-radius: 14px; */
+  aspect-ratio: 3 / 2;          /* shape of the collage (width / height); 16 / 9 = wider, 1 / 1 = square */
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-areas:
+    "a a b c"
+    "a a d c"
+    "e f f c";
+}
+
+/* Links each photo (in the order they appear in index.html) to a letter above. */
+.tile { overflow: hidden; border-radius: 6px; min-height: 0; }  /* border-radius = photo corner roundness */
+.tile:nth-child(1) { grid-area: a; }
+.tile:nth-child(2) { grid-area: b; }
+.tile:nth-child(3) { grid-area: c; }
+.tile:nth-child(4) { grid-area: d; }
+.tile:nth-child(5) { grid-area: e; }
+.tile:nth-child(6) { grid-area: f; }
+
+/* Photos fill their tile and get cropped to fit (object-fit: cover). */
+.tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+/* Hover zoom on collage photos. 1.05 = 5% bigger; set to 1 to turn off. */
+.tile:hover img { transform: scale(1.05); }
+
+/* Detail card: photo on the left, text on the right.
+   2fr 3fr = photo takes 2 parts of the width, text takes 3. */
+.detail {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  border: 1.5px solid var(--ink);   /* outline around the card */
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+/* The photo side of the card.
+   The ::before line sets the photo's MINIMUM shape: padding-top 125% =
+   5 tall for every 4 wide (portrait). Use 100% for square, 75% for 4:3.
+   If the text is longer than that, the card grows and the photo
+   stretches to match, so text never gets cut off. */
+.detail-photo {
+  position: relative;
+  background: #f1f1f1;
+}
+.detail-photo::before {
+  content: "";
+  display: block;
+  padding-top: 125%;
+}
+/* The photo / placeholder / Spotify player fills the whole photo area. */
+.detail-photo > * {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.detail-photo img { object-fit: cover; }
+
+/* Cards with fit: "whole" in home.js (computers only): the whole photo
+   is shown (nothing cropped), and the empty space beside it is filled
+   with a blurred, slightly darker copy of the same photo.
+   blur(18px) = how soft the background is; brightness(0.85) = how dark.
+   Phones keep the normal crop, which suits their tall, narrow photo space. */
+.photo-blur { display: none; }
+@media (min-width: 900px) {
+  .detail-photo.fit-whole { overflow: hidden; }
+  .detail-photo.fit-whole img { object-fit: contain; }
+  .detail-photo > .photo-blur {
+    display: block;
+    inset: -30px;                   /* bigger than the box so the blur has no pale edges */
+    width: auto;
+    height: auto;
+    background-position: center;
+    background-size: cover;
+    filter: blur(18px) brightness(0.85);
+  }
+}
+
+/* Spotify player (a card with spotify: "…" in home.js shows this instead of a photo).
+   12px = white space around the player; border-radius = its corner roundness. */
+.detail.has-embed .detail-photo { background: var(--bg); }
+.detail-photo iframe {
+  inset: 12px;
+  width: calc(100% - 24px);
+  height: calc(100% - 24px);
+  border: 0;
+  border-radius: 12px;
+}
+
+/* Striped "photo coming soon" box, shown when an item in home.js has photo: "". */
+.photo-ph {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  font-family: "Patrick Hand", cursive;
+  font-size: 18px;
+  color: #999;
+  background: repeating-linear-gradient(45deg, #f4f4f4 0 12px, #ebebeb 12px 24px);
+}
+
+/* The text side of the card, with a maroon divider line on its left. */
+.detail-text {
+  padding: 1.5rem 1.75rem;              /* inner spacing: top/bottom, left/right */
+  border-left: 1.5px solid var(--accent);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;                            /* space between date line, title, description */
+}
+
+/* The small grey line (place · date · time · location), in the bottom-right
+   corner of the card, below the title and description.
+     order: 1        = shown after the title + description (delete to move it back above the title)
+     margin-top: auto = pushed down to the bottom of the card
+     text-align      = "right" or "left" */
+.detail-meta {
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+  text-align: right;
+  order: 1;
+  margin-top: auto;
+  padding-top: 10px;   /* minimum gap above it when the text is long */
+}
+/* The place name as a map link: same grey, thin underline in the underline colour. */
+.detail-meta a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--underline);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+}
+.detail-meta a:hover,
+.detail-meta a:focus-visible { color: var(--accent); }
+.detail-title { font-family: "Pangolin", cursive; font-weight: 400; font-size: 28px; line-height: 1.2; }
+.detail-desc { color: #444; }  /* description paragraph */
+
+
+/* ── 6b. Computer layout: words + icons left, gallery right ─────
+   Only applies when the window is 900px wide or more. Narrower windows
+   (and phones) keep the stacked layout from the sections above.
+   To change when it switches, edit 900px in the line below. */
+@media (min-width: 900px) {
+  /* The whole page is one grid on computers:
+       bar   bar        ← small name + nav, full width
+       who   stage      ← big name      | gallery / card starts here…
+       left  stage      ← intro + icons | …and runs down to the bottom
+     min-height: 100vh makes the page at least one screen tall, so the
+     gallery ends just above the bottom of the screen and the footer
+     starts just below it.
+     display: contents on .top and .home-split lets their insides sit
+     directly in this grid. */
+  /* .home = the homepage only (<main class="page home"> in index.html),
+     so other pages that share this stylesheet keep their normal layout. */
+  .home {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr; /* left : right width. Bigger second number = wider gallery */
+    column-gap: 3.5rem;              /* space between the two columns */
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas:
+      "bar  bar"
+      "who  stage"
+      "left stage";
+  }
+  .home .top, .home .home-split { display: contents; }
+  .home .topbar { grid-area: bar; }
+  .home .who    { grid-area: who; }             /* its margin-top (section 3) = gap under the top bar */
+  .home-left {
+    grid-area: left;
+    margin-top: 3.5rem;              /* minimum gap between your name and the headline */
+    align-self: center;              /* centres the headline + icons in the space beside the gallery; "start" = sit right under your name */
+  }
+  .stage {
+    grid-area: stage;
+    margin-top: 3rem;                /* keep equal to .who's margin-top so the right side lines up with your name */
+    align-self: stretch;             /* fill the full height of its area */
+    position: relative;              /* the gallery is pinned inside this box (see .collage below) */
+  }
+  .intro { margin-top: 0; }          /* the gap above now comes from .home-split */
+  .five { margin-bottom: 0; }
+
+  /* Bigger intro + icons on computers, so the left side fills more of
+     the gallery's height. Phones use the sizes in section 7. */
+  .intro { font-size: 22px; }                    /* grey follow-up line */
+  .intro .lead {
+    font-size: 58px;                             /* headline */
+    line-height: 1.15;
+    margin-bottom: 18px;
+    text-wrap: balance;                          /* evens out the two headline lines */
+  }
+  .hint { font-size: 20px; margin-bottom: 3rem; }
+  .icon { width: 100px; height: 100px; }         /* icon circle */
+  .icon-ph { font-size: 46px; }                  /* the emoji inside */
+  .five { padding-bottom: 70px; }                /* keep equal to the translateY below */
+  .five li:nth-child(even) { transform: translateY(70px); }
+
+  /* Gallery on computers: 3 columns × 4 rows. Its height comes from the
+     page, not from a fixed shape.
+       a a b       a = big photo         c = tall photo (2 rows)
+       a a c       b, d, e = small       f = wide strip across the bottom
+       d e c
+       f f f
+     The .tile lines below decide which photo goes where. The number is
+     the photo's position in the list in index.html (1 = first). */
+  .collage {
+    position: absolute;              /* fill the right side exactly (top of your name → */
+    inset: 0;                        /* bottom of the screen); photos can't stretch it taller */
+    aspect-ratio: auto;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(4, minmax(0, 1fr));
+    grid-template-areas:
+      "a a b"
+      "a a c"
+      "d e c"
+      "f f f";
+  }
+  .tile:nth-child(1) { grid-area: a; }   /* gym smash → big */
+  .tile:nth-child(2) { grid-area: b; }   /* barcelona croissant → small, top right */
+  .tile:nth-child(3) { grid-area: c; }   /* pink northern lights → tall */
+  .tile:nth-child(5) { grid-area: d; }   /* food → small */
+  .tile:nth-child(4) { grid-area: e; }   /* peru sunset → small */
+  .tile:nth-child(6) { grid-area: f; }   /* shoes on the wire → wide bottom */
+
+  /* Detail card on computers: fills exactly the space the gallery uses,
+     so opening a card never makes the page longer than one screen.
+     Photo on top, title + description underneath. The text takes the
+     place of the gallery's bottom row (the shoes photo), and the photo
+     fills the rest, cropped to fit.
+       25% = the text area's height, same as one gallery row.
+     If a description needs more room than that, the text area grows
+     and the photo gets a little shorter, so nothing is ever cut off. */
+  .detail {
+    position: absolute;
+    inset: 0;
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(0, 1fr) minmax(25%, auto);
+  }
+  .detail-photo::before { padding-top: 0; }
+  .detail-text {
+    border-left: none;
+    border-top: 1.5px solid var(--accent);
+    padding: 0.9rem 1.5rem 0.8rem;
+    /* Title on the left, place/date line on the right of the same row,
+       description underneath across the full width. */
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      "title meta"
+      "desc  desc";
+    align-items: baseline;
+    align-content: start;
+    gap: 6px 1.5rem;
+  }
+  .detail-title { grid-area: title; }
+  .detail-meta  { grid-area: meta; margin-top: 0; padding-top: 0; }
+  .detail-desc  { grid-area: desc; }
+  .detail-title { font-size: 28px; }                     /* card title on computers */
+  .detail-desc { font-size: 16px; line-height: 1.55; }   /* card description on computers */
+}
+
+
+/* ── 7. Mobile (screens 640px wide or less) ────────────────────
+   Everything in here overrides the desktop rules above on phones.
+   If you change a size above and it doesn't change on your phone,
+   it's probably being overridden here. */
+@media (max-width: 640px) {
+  .page { padding: 1.75rem 1rem 3rem; }
+
+  .name { font-size: 30px; }
+  .study { font-size: 14px; }
+
+  /* Header on phones: big name on the left, nav links stacked vertically
+     on the right (same row). The small top-left name is hidden here;
+     delete the .home-link line to bring it back.
+     display: contents lets the nav step out of the top bar so it can sit
+     beside the big name. */
+  .top {
+    display: grid;
+    grid-template-columns: 1fr auto;   /* name takes the space, nav hugs the right */
+    gap: 1rem;
+    align-items: start;
+  }
+  .topbar { display: contents; }
+  .home-link { display: none; }
+  .who { grid-column: 1; grid-row: 1; margin-top: 0; }
+  .nav {
+    grid-column: 2; grid-row: 1;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    padding-top: 2px;
+  }
+  .nav a { font-size: 15px; }
+
+  .intro { font-size: 16px; margin: 2.5rem 0 0.75rem; }
+  .intro .lead { font-size: 33px; margin-bottom: 8px; }
+  .hint { font-size: 16px; margin-bottom: 2rem; }
+
+  /* Smaller zig-zag and smaller icons on phones. */
+  .five li:nth-child(even) { transform: translateY(40px); }
+  .five { padding-bottom: 40px; margin-top: 2rem; }
+  .icon { width: 58px; height: 58px; }
+  .icon-ph { font-size: 24px; }
+
+  /* Taller collage on phones: 3 columns × 4 rows.
+       a a b
+       a a c
+       d e c
+       f f c                                       */
+  .collage {
+    aspect-ratio: 3 / 4;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    grid-template-areas:
+      "a a b"
+      "a a c"
+      "d e c"
+      "f f c";
+  }
+
+  /* Detail card on phones: photo on the left, text on the right, with
+     the text getting most of the width.
+     1fr 2fr = photo takes 1 part of the width, text takes 2.
+       More text room: 1fr 3fr.  Bigger photo: 2fr 3fr. */
+  .detail { grid-template-columns: 1fr 2fr; }
+  /* The card's minimum height, set by the photo's shape:
+     200% = twice as tall as it is wide. Raise it (e.g. 250%) for a longer
+     card, lower it (e.g. 150%) for a shorter one. If the text needs more
+     room than this, the card grows to fit it anyway. */
+  .detail-photo::before { padding-top: 200%; }
+  .detail-text { padding: 1rem; gap: 6px; }
+  .detail-title { font-size: 20px; }
+  .detail-desc { font-size: 14px; }
+}
+
+/* Phones: the Spotify card is the exception. The player is too cramped in
+   a narrow column, so on that card it sits on top of the text instead.
+   376px = Spotify's 352px full player (with track list) + 12px padding on
+   each side. Anything shorter makes Spotify switch to its small compact
+   player, which leaves an empty gap; for that compact look, use 176px. */
+@media (max-width: 640px) {
+  .detail.has-embed { grid-template-columns: 1fr; }
+  .detail.has-embed .detail-photo::before { padding-top: 0; height: 376px; }
+  .detail.has-embed .detail-text { border-left: none; border-top: 1.5px solid var(--accent); }
+}
+
+
+/* ── 7b. Phone homepage fits one screen ─────────────────────────
+   Phones only (640px or less), homepage only (.home). The page is
+   exactly one screen tall, and the gallery stretches to fill whatever
+   space is left under the icons, so visitors don't need to scroll to
+   see it all. 100svh = the screen height with the browser bars showing.
+   To undo: delete this whole block. */
+@media (max-width: 640px) {
+  .home {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    padding-top: 1.25rem;              /* less space above your name */
+    padding-bottom: 1rem;              /* small gap under the gallery */
+  }
+  .home .home-split {
+    flex: 1;                           /* take up the leftover height */
+    display: flex;
+    flex-direction: column;
+  }
+  .home .stage {
+    flex: 1;
+    position: relative;                /* the gallery is pinned inside this box */
+    min-height: 220px;                 /* never smaller than this on short phones */
+  }
+
+  /* A bit less space above the gallery. */
+  .home .intro { margin-top: 1.25rem; }
+  .home .five { margin-top: 1rem; margin-bottom: 0.75rem; padding-bottom: 24px; }
+  .home .five li:nth-child(even) { transform: translateY(24px); }
+
+  /* Gallery: fills the stage exactly. 3 columns × 3 rows:
+       a a b
+       a a c
+       d e f        */
+  .home .collage {
+    position: absolute;
+    inset: 0;
+    aspect-ratio: auto;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+    grid-template-areas:
+      "a a b"
+      "a a c"
+      "d e f";
+  }
+
+  /* Detail card: fills the same space as the gallery, so opening a card
+     keeps the page one screen tall. Photo left, text right; the text
+     scrolls by itself if it's longer than the space.
+     The Spotify card is the exception: the player needs 376px, so that
+     card keeps its own height (a short scroll on small phones). */
+  .home .detail:not(.has-embed) {
+    position: absolute;
+    inset: 0;
+    grid-template-rows: minmax(0, 1fr);
+  }
+  .home .detail:not(.has-embed) .detail-photo::before { padding-top: 0; }
+  .home .detail-text { overflow-y: auto; }
+}
+
+
+/* ── 8. Footer ─────────────────────────────────────────────────
+   Big name on the left, link columns on the right, small notes at the bottom.
+   The three variables below only apply inside the footer. */
+.site-footer {
+  --footer-bg: var(--bg);    /* same as the page; put a colour here to make the footer different */
+  --footer-ink: #777777;     /* colour of footer labels and notes */
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;  /* typewriter-style font for labels */
+
+  background: var(--footer-bg);
+  border-top: 1px solid var(--ink);   /* line across the top of the footer */
+  color: var(--footer-ink);
+  padding: 2.5rem clamp(1rem, 3vw, 2.75rem) 1.75rem;  /* clamp(min, preferred, max) scales with screen width */
+  margin-top: 4rem;                   /* space between the page content and the footer */
+  min-height: 300px;                  /* footer height; lower for a shorter footer */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;     /* pushes the bottom notes to the bottom */
+  gap: 3rem;
+}
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+/* Your name in the footer. Scales between 32px and 48px with screen width. */
+.footer-name {
+  color: var(--ink);
+  font-family: "Pangolin", cursive;
+  font-size: clamp(32px, 5vw, 48px);
+  line-height: 1.1;
+}
+
+/* The "Let's Connect" and "Pages" columns side by side. */
+.footer-cols {
+  display: flex;
+  gap: clamp(3rem, 9vw, 8rem);   /* space between the two columns */
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;                     /* space between links in a column */
+}
+
+/* Small uppercase headings: "LET'S CONNECT", "PAGES". */
+.footer-label {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+/* Footer links, with an underline that grows in on hover
+   (done with a background line; "1px" is its thickness). */
+.footer-col a {
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 17px;
+  width: fit-content;
+  background: linear-gradient(var(--underline), var(--underline)) 0 100% / 0 1px no-repeat;
+  transition: background-size 0.25s ease;
+}
+.footer-col a:hover { background-size: 100% 1px; }
+
+/* Bottom row: "Built with…" on the left, © year on the right. */
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.footer-note {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;   /* remove this line to keep your original capitalisation */
+}
+
+/* Footer on phones: everything stacks vertically. */
+@media (max-width: 640px) {
+  .footer-top { flex-direction: column; }
+  .footer-bottom { flex-direction: column; gap: 6px; }
+}
+
+
+/* ── 9. Reduced motion ─────────────────────────────────────────
+   Turns off animations for visitors who've asked their device for less
+   motion (an accessibility setting). Keep this. */
+@media (prefers-reduced-motion: reduce) {
+  .page, .icon-ph, .icon img { animation: none; }
+  .contact-toggle::after, .caret { transition: none; }
+  .stage, .icon, .tile img, .name-toggle, .trait-word u, .study a u { transition: none; }
+}
+
+
+/* ── 10. Highlighter band: intro words + header name ───────────
+   Applies to anything wrapped in <u>…</u> inside the intro sentence
+   or your name. Change it here and all of them update. To highlight another word in the intro, just
+   wrap it in <u></u>. To use this band somewhere else, add that selector
+   to the list (e.g. ".footer-name u,").
+   The band is a solid-colour background strip drawn behind the text. */
+.intro u,
+.name u,
+.study u,
+.page-title u {
+  text-decoration: none;                               /* hides the normal underline */
+  background-image: linear-gradient(var(--band), var(--band)); /* band colour: set by --band at the top of this file */
+  background-repeat: no-repeat;
+  background-size: 100% 0.12em;  /* band thickness: bigger em = thicker (was 0.2em) */
+  background-position: 0 98%;    /* how low the band sits: lower % = higher up through the letters */
+  border-radius: 2px;            /* softens the band's ends */
+  padding: 0 1px;                /* lets the band poke out 1px past each end of the word */
+}
+
+
+/* ── 11. Clickable intro words ─────────────────────────────────
+   "problem solver", "listener" and "storyteller" are buttons that work
+   like the five icons: clicking one shows its card in place of the
+   collage (see home.js). They look like normal text; on hover the band
+   grows up behind the whole word, like a highlighter being dragged up,
+   and it stays that way while that word's card is open. */
+.trait-word {
+  all: unset;              /* strips the button look so it reads as part of the sentence */
+  cursor: pointer;
+}
+.trait-word u {
+  transition: background-size 0.25s ease;   /* speed of the grow effect */
+}
+/* How tall the band gets on hover / when selected: 0.9em ≈ almost the
+   full letter height. Lower it (e.g. 0.5em) for a subtler effect. */
+.trait-word:hover u,
+.trait-word:focus-visible u,
+.trait-word[aria-pressed="true"] u {
+  background-size: 100% 0.9em;
+}
+/* Keyboard focus ring (for people navigating with Tab). */
+.trait-word:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+
+
+/* ── 12. Clickable "Accounting" in the subtitle ───────────────
+   Links to accounting.html (your coursework). Keeps the grey subtitle
+   colour, and the band grows on hover like the intro words. */
+.study a {
+  color: inherit;
+  text-decoration: none;
+}
+.study a u {
+  transition: background-size 0.25s ease;
+}
+.study a:hover u,
+.study a:focus-visible u {
+  background-size: 100% 0.9em;
+}
+.study a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }

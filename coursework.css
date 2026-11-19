@@ -1,0 +1,242 @@
+/* ═══════════════════════════════════════════════════════════════
+   coursework.css — extra styles for accounting.html
+
+   That page ALSO loads home.css first, so it reuses the homepage's
+   colours, fonts, header, footer and highlighter band. This file only
+   adds what's new on the coursework page:
+
+     1. Header name as a link home
+     2. Page width
+     3. Title block
+     4. Course list (one card per course)
+     5. Mobile
+   ═══════════════════════════════════════════════════════════════ */
+
+
+/* ── 1. Header name ───────────────────────────────────────────
+   On this page your name is a link back to the homepage. */
+.name a {
+  color: inherit;
+  text-decoration: none;
+}
+
+
+/* ── 2. Page width ────────────────────────────────── */
+.coursework {
+  max-width: 680px;           /* reading width; raise for wider cards */
+  margin-top: 3rem;           /* gap between the top bar and the title */
+}
+
+
+/* ── 3. Title block ───────────────────────────────────────────── */
+
+/* Small "ACCOUNTING + BUSINESS ANALYTICS" label under the title. */
+.page-kicker {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+/* The title is also the "back home" link: looks like plain text, with a
+   small tilt + maroon colour on hover as a hint that it's clickable
+   (same idea as your name on the homepage). */
+.title-home {
+  color: inherit;
+  text-decoration: none;
+  display: inline-block;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+.title-home:hover { color: var(--accent); transform: rotate(-1deg); }
+.title-home:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
+
+/* When the small label sits UNDER the big title (as it does now). */
+.page-title + .page-kicker { margin-top: 16px; margin-bottom: 0; }
+
+/* The big "Relevant Coursework" title. Its band comes from section 10 of home.css. */
+.page-title {
+  font-family: "Pangolin", cursive;
+  font-weight: 400;
+  font-size: 56px;            /* mobile size is in section 5 */
+  line-height: 1.1;
+}
+
+/* One or two sentences under the title. */
+.page-lede {
+  margin-top: 1.25rem;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #333;
+}
+
+
+/* ── 3b. Filters ──────────────────────────────────────────────
+   The rounded buttons above the course list (wired up in
+   js/coursework.js). Same typewriter font as the course codes. */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 18px;             /* row gap, column gap */
+  margin-top: 2rem;
+}
+.filter-group { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.chip,
+.sort-toggle {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--bg);
+  border: 1.5px solid #ccc;
+  border-radius: 999px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+.chip:hover,
+.sort-toggle:hover { color: var(--ink); border-color: var(--ink); }
+
+/* The selected chip: maroon outline + light pink fill. */
+.chip[aria-pressed="true"] {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: #fbf3f4;
+}
+
+/* The sort button sits at the far right on wide screens. */
+.sort-toggle { margin-left: auto; border-style: dashed; }
+
+.chip:focus-visible,
+.sort-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Smaller gap between the filters and the first course card. */
+.filters + .course-list { margin-top: 1.5rem; }
+
+/* "Nothing here yet" message when no course matches. */
+.course-empty {
+  margin-top: 2rem;
+  font-family: "Patrick Hand", cursive;
+  font-size: 20px;
+  color: var(--muted);
+}
+
+
+/* ── 4. Course list ───────────────────────────────────────────
+   Each course is one card: code + term on top, then the course name
+   on the left with the grade on the right. */
+.course-list {
+  list-style: none;
+  display: grid;
+  gap: 1rem;                  /* space between course cards */
+  margin-top: 2.5rem;
+}
+
+/* Optional group heading, e.g. "Core" or "Electives". */
+.course-group {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 2.5rem;
+}
+.course-group + .course-list { margin-top: 1rem; }
+
+.course {
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+/* Small lift on hover. Delete these two lines to turn it off. */
+.course:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06); }
+
+/* Top row: course code on the left, term on the right. */
+.course-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Second row: course name on the left, grade on the right. */
+.course-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 6px;
+}
+
+.course-name {
+  font-family: "Pangolin", cursive;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1.25;
+}
+
+/* The grade: a small rounded badge outlined in the underline colour.
+   To make it a solid pink badge instead, add:  background: var(--underline); color: #fff; */
+.course-grade {
+  flex-shrink: 0;             /* never squashed by a long course name */
+  min-width: 3rem;
+  text-align: center;
+  font-family: "Pangolin", cursive;
+  font-size: 22px;
+  line-height: 1;
+  padding: 8px 12px;
+  border: 1.5px solid var(--underline);
+  border-radius: 999px;
+}
+
+/* Text that only screen readers announce (the hidden "Grade: " label). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+
+/* ── 4b. Computers: two course cards per row ─────────────────────
+   Uses the full page width (instead of the narrow reading width)
+   and puts the cards in 2 columns. Change 2 to 3 for three per row. */
+@media (min-width: 900px) {
+  .coursework { max-width: none; }
+  .course-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+
+/* ── 5. Mobile (screens 640px wide or less) ───────────────────── */
+@media (max-width: 640px) {
+  /* This page has no big name, so on phones keep the small name visible
+     and the nav links in one row beside it (the homepage stacks them). */
+  .top { display: block; }
+  .topbar { display: flex; }
+  .home-link { display: inline; font-size: 17px; }
+  .nav { flex-direction: row; gap: 14px; padding-top: 0; }
+  .nav a { font-size: 14px; }
+
+  .coursework { margin-top: 2rem; }
+  .page-title { font-size: 40px; }
+  .page-lede { font-size: 16px; }
+  .course { padding: 1rem 1.1rem; }
+  .course-name { font-size: 20px; }
+  .course-grade { font-size: 19px; padding: 6px 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .course { transition: none; }
+}

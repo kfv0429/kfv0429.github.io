@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<!-- ═══════════════════════════════════════════════════════════════
+     work.html — professional experience, leadership and projects
+
+       • Looks: home.css (shared header/footer/colours) + work.css (this page)
+       • The old version of this page is saved in old/work-old.html.
+
+     Sections, top to bottom:
+       1. Header         same as the homepage
+       2. Quote + intro  the Dr. Seuss quote and the one-line description;
+                         the underlined words jump to the sections below
+       3. Professional
+       4. Leadership & Activities
+       5. Projects
+       6. Footer
+
+     To add an experience: copy a whole <li>…</li> block in Professional
+     or Leadership and change the words. To add a project: copy a <li class="project">.
+     ═══════════════════════════════════════════════════════════════ -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Text on the browser tab. -->
+  <title>Work · Rongpeng Zhou</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Pangolin&family=Patrick+Hand&display=swap" rel="stylesheet">
+  <!-- home.css first (shared styles), then work.css (this page's layout). Keep this order. -->
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/work.css">
+</head>
+<body>
+
+  <main class="page">
+
+    <!-- ───────── 1. Header ─────────
+         Same as the homepage. If you change the nav there, change it here too.
+         aria-current="page" marks "Work" as the page you're on (it stays underlined). -->
+    <header class="top">
+      <div class="topbar">
+        <a class="home-link" href="index.html">Rongpeng Zhou</a>
+        <nav class="nav" aria-label="Main">
+          <a href="about.html">About</a>
+          <a href="work.html" aria-current="page">Work</a>
+          <a href="play.html">Play</a>
+          <!-- Contact dropdown (open/close in js/nav.js, styles in section 3 of home.css). -->
+          <div class="contact-menu">
+            <button class="contact-toggle" type="button" aria-expanded="false" aria-controls="contact-list">Contact <span class="caret" aria-hidden="true">▾</span></button>
+            <div class="contact-list" id="contact-list" hidden>
+              <a href="mailto:ares.rongpeng.zhou07@gmail.com">Email</a>
+              <a href="https://www.linkedin.com/in/zhourongpeng" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <!-- ───────── 2. Quote + intro ─────────
+         Wrap words in <u>…</u> to give them the highlighter band. -->
+    <section class="work-intro">
+      <!-- Left column: quote + intro line. Right column: the photo (on phones
+           the photo moves below). Layout is in section 2 of work.css. -->
+      <div class="intro-text">
+      <blockquote class="quote">
+        <p>“The more that you read, the more things you will know.
+        The more that you learn, the more places you’ll go.”</p>
+        <footer class="quote-by">— Dr. Seuss</footer>
+      </blockquote>
+
+      <!-- Each underlined word jumps to its section below (href="#id" must
+           match the id on that section). -->
+      <p class="work-lede">
+        Here is a collection of my
+        <a href="#professional"><u>professional</u></a> and
+        <a href="#leadership"><u>leadership</u></a> experience, as well as some
+        <a href="#projects"><u>projects</u></a>!
+      </p>
+      </div>
+
+      <!-- Photo beside the quote. To change it: put a new photo in images/work,
+           update src and alt, and change the location line underneath. -->
+      <figure class="intro-photo">
+        <img src="images/work/library.jpg" alt="Rows of colorful books on library shelves">
+        <figcaption class="intro-photo-loc">Law Library, University of Minnesota</figcaption>
+      </figure>
+    </section>
+
+
+    <!-- ───────── 3. Professional ─────────
+         Each experience is one slim row: position, company and dates on the
+         left, logo on the right. Clicking the row pops it out into a bigger
+         card in the middle of the screen (js/work.js) showing the details.
+         HOW IT'S BUILT: <details> = the whole row; <summary> = the part that's
+         always visible; <div class="role-body"> = the details shown in the pop-out card.
+         <span class="role-loc"> = the location; it only shows in the pop-out
+         card, under the company name. Delete the line to leave it out.
+         To add one: copy a whole <li>…</li> block and change the words. -->
+    <section class="work-section" id="professional">
+      <h2 class="section-title"><u>Professional</u></h2>
+
+      <ul class="roles">
+
+        <!-- Upcoming internship. Update the paragraphs once you know your tax practice. -->
+        <li>
+          <details class="role">
+            <summary class="role-summary">
+              <span class="role-info">
+                <span class="role-title">Incoming Tax Intern</span>
+                <span class="role-org">KPMG</span>
+                <span class="role-loc">Minneapolis, Minnesota</span>
+                <span class="role-date">Winter 2028</span>
+              </span>
+              <img class="role-logo" src="images/logos/KPMG.png" alt="KPMG logo">
+            </summary>
+            <div class="role-body">
+              <div class="role-desc">
+                <p>I’ll be joining KPMG’s Minneapolis office as a Tax Intern in Winter 2028!</p>
+                <p>I am excited for the opportunity to expereince public accounting and tax!</p>
+              </div>
+              <p class="role-links">
+                <a href="https://kpmg.com/us/en.html" target="_blank" rel="noopener">KPMG ↗</a>
+              </p>
+            </div>
+          </details>
+        </li>
+
+        <li>
+          <details class="role">
+            <summary class="role-summary">
+              <span class="role-info">
+                <span class="role-title">Audit Intern</span>
+                <span class="role-org">Fuyao Automotive North America</span>
+                <span class="role-loc">Plymouth, Michigan</span>
+                <span class="role-date">May 2026 – August 2026</span>
+              </span>
+              <img class="role-logo" src="images/logos/Fuyao.png" alt="Fuyao logo">
+            </summary>
+            <div class="role-body">
+              <div class="role-desc">
+                <p>I was an audit intern on FANA's finance team. I mainly supported the month-end close, helped with reconciliations, accruals and financial statement preparation.</p>
+                <p>My main focus was product costing and inventory valuation. I used Excel models (XLOOKUP, PivotTables, SUMIFS, Crossreferencing) for automotive glass costs, traced yield variances back to their cause, and reviewed about 75 PO's a week in Oracle ERP.</p>
+                <p>I also got exposure to managerial accounting (Contribution Income Statement, Segment margin, Costing Accounting) and saw how a subsidiary’s statements consolidate into the parent group.</p>
+              </div>
+              <p class="role-links">
+                <a href="https://fuyaousa.com/" target="_blank" rel="noopener">Fuyao USA ↗</a>
+                <a href="https://www.fuyaogroup.com/en/" target="_blank" rel="noopener">Fuyao Group ↗</a>
+              </p>
+            </div>
+          </details>
+        </li>
+
+        <li>
+          <details class="role">
+            <summary class="role-summary">
+              <span class="role-info">
+                <span class="role-title">Development Coach</span>
+                <span class="role-org">Mandarin Badminton</span>
+                <span class="role-loc">Markham, Ontario, Canada</span>
+                <span class="role-date">January 2023 – August 2025</span>
+              </span>
+              <img class="role-logo" src="images/logos/Mandarin Badminton.png" alt="Mandarin Badminton logo">
+            </summary>
+            <div class="role-body">
+              <div class="role-desc">
+                <p>As a beginner, Senior players often coached me or offered me advice. I would not have achieved the results I did had it not been for them. This was a way for me to pay it forward.</p>
+                <p>I coached junior players at the club ranging from provincial level to national and Pan Am medalists. I offered real-time technical and tactical feed back during sparring sessions, and led training sessions to help players prepare for tournaments.
+              </div>
+              <p class="role-links">
+                <a href="https://mandarinbadminton.com/" target="_blank" rel="noopener">Mandarin Badminton ↗</a>
+              </p>
+            </div>
+          </details>
+        </li>
+
+      </ul>
+    </section>
+
+
+    <!-- ───────── 4. Leadership & Activities ─────────
+         Same slim rows as Professional (see the note there). -->
+    <section class="work-section" id="leadership">
+      <h2 class="section-title"><u>Leadership</u> &amp; Activities</h2>
+
+      <ul class="roles">
+
+        <li>
+          <details class="role">
+            <summary class="role-summary">
+              <span class="role-info">
+                <span class="role-title">President</span>
+                <span class="role-org">Minnesota Badminton</span>
+                <span class="role-loc">Minneapolis, Minnesota</span>
+                <span class="role-date">January 2026 – Present</span>
+              </span>
+              <img class="role-logo" src="images/logos/MN badminton Logo.png" alt="Minnesota Badminton logo">
+            </summary>
+            <div class="role-body">
+              <div class="role-desc">
+                <p>I lead a 501(c)(3) nonprofit growing badminton across Minnesota. As the president, I am running board meetings, delegating, and ensuring events aligned with our mission and goal</p>
+                <p>I plan the Minnesota Open (300+ players, $30K+ budget) and track expenses and participation data in Excel to guide future planning.</p>
+              </div>
+              <p class="role-links">
+                <a href="https://www.minnesotabadminton.com/" target="_blank" rel="noopener">Minnesota Badminton ↗</a>
+              </p>
+            </div>
+          </details>
+        </li>
+
+        <!-- VITA: add a paragraph about your experience after the 2027 tax season. -->
+        <li>
+          <details class="role">
+            <summary class="role-summary">
+              <span class="role-info">
+                <span class="role-title">Income Tax Volunteer</span>
+                <span class="role-org">NoRTH / VITA</span>
+                <span class="role-loc">Minneapolis, Minnesota</span>
+                <span class="role-date">October 2026 – Present</span>
+              </span>
+              <img class="role-logo" src="images/logos/VITA.png" alt="VITA (Volunteer Income Tax Assistance) logo">
+            </summary>
+            <div class="role-body">
+              <div class="role-desc">
+                <p>VITA (Volunteer Income Tax Assistance) is an IRS program that offers free tax return preparation to people who qualify.</p>
+                <p>I’m currently completing the training to become a certified volunteer, and I’ll be helping prepare returns during the 2027 tax season.</p>
+              </div>
+              <p class="role-links">
+                <a href="https://www.irs.gov/individuals/free-tax-return-preparation-for-qualifying-taxpayers" target="_blank" rel="noopener">IRS VITA program ↗</a>
+              </p>
+            </div>
+          </details>
+        </li>
+
+        <li>
+          <details class="role">
+            <summary class="role-summary">
+              <span class="role-info">
+                <span class="role-title">Junior National Team Member</span>
+                <span class="role-org">Badminton Canada</span>
+                <span class="role-loc">Ottawa, Canada</span>
+                <span class="role-date">May 2018 – August 2026</span>
+              </span>
+              <img class="role-logo" src="images/logos/BCAN logo.png" alt="Badminton Canada logo">
+            </summary>
+            <div class="role-body">
+              <div class="role-desc">
+                <p>I spent nine years on Canada’s junior national team and was ranked No. 1 nationally in doubles and mixed doubles. I achieved 9 Pan American Junior podium finishes (2 Gold, 4 Silver, 3 Bronze) and a Top 32 finish at the BWF World Junior Championships.</p>
+              </div>
+              <p class="role-links">
+                <a href="https://www.badminton.ca/" target="_blank" rel="noopener">Badminton Canada ↗</a>
+                <!-- Press links. The "#:~:text=..." part makes the browser scroll to and
+                     highlight that text on the page, so readers land on the section about you. -->
+                <a href="https://www.badmintonpanam.org/pan-am-junior-players-shined-in-canada-pan-am-junior-2019/#:~:text=Rongpeng%20Zhou" target="_blank" rel="noopener">Pan Am Juniors 2019 ↗</a>
+                <a href="https://www.badmintonontario.ca/podium-finishes-for-ontario-badminton-athletes-at-2023-junior-pan-am-championships/#:~:text=Ares%20Rongpeng%20Zhou" target="_blank" rel="noopener">Pan Am Juniors 2023 ↗</a>
+                <a href="https://www.badminton.ca/news/156545/Badminton-Canada-Announces-the-players#:~:text=Ares%20Rongpeng%20Zhou" target="_blank" rel="noopener">Team Canada 2024 ↗</a>
+              </p>
+            </div>
+          </details>
+        </li>
+
+      </ul>
+    </section>
+
+
+    <!-- ───────── 5. Projects ─────────
+         The small grey line (project-tag) = the tool, and the course if any. Add a short description
+         in <p class="project-desc"> when you're ready; leave it out until then. -->
+    <section class="work-section" id="projects">
+      <h2 class="section-title"><u>Projects</u></h2>
+      <p class="projects-note">
+        A lot of these Excel files are protected, so they aren’t posted here.
+        To learn more about any of them, feel free to
+        <a href="mailto:ares.rongpeng.zhou07@gmail.com">email me</a>!
+      </p>
+
+      <ul class="projects">
+        <li class="project">
+          <p class="project-tag">Excel · ACCT 5101</p>
+          <h3 class="project-title">EDGAR Search Project</h3>
+        </li>
+        <li class="project">
+          <p class="project-tag">Excel</p>
+          <h3 class="project-title">Forecasting Schedule</h3>
+        </li>
+        <li class="project">
+          <p class="project-tag">Excel</p>
+          <h3 class="project-title">Inventory Analysis</h3>
+        </li>
+        <li class="project">
+          <p class="project-tag">Excel</p>
+          <h3 class="project-title">Manufacturing Cost Variance Analysis</h3>
+        </li>
+        <li class="project">
+          <p class="project-tag">Excel</p>
+          <h3 class="project-title">Budget Planner</h3>
+        </li>
+      </ul>
+    </section>
+
+  </main>
+
+  <!-- ───────── 6. Footer ─────────
+       Same as the homepage. If you change the footer there, change it here too. -->
+  <footer class="site-footer">
+    <div class="footer-top">
+      <p class="footer-name">Rongpeng Zhou</p>
+
+      <div class="footer-cols">
+        <div class="footer-col">
+          <p class="footer-label">Let's Connect</p>
+          <a href="mailto:ares.rongpeng.zhou07@gmail.com">Email</a>
+          <a href="https://www.linkedin.com/in/zhourongpeng" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a>
+        </div>
+
+        <div class="footer-col">
+          <p class="footer-label">Pages</p>
+          <a href="about.html">About</a>
+          <a href="work.html">Work</a>
+          <a href="play.html">Play</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-note">Built with unhealthy amounts of coffee &amp; love</p>
+      <p class="footer-note">© <span id="year">2026</span> Rongpeng Zhou</p>
+    </div>
+  </footer>
+
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+  <!-- Pop-out card: empty on purpose. When a row is clicked, js/work.js
+       copies that row's words into it and grows it out of the row.
+       Styles: section 4b of css/work.css. -->
+  <div class="role-pop" id="role-pop" hidden>
+    <div class="role-pop-backdrop"></div>
+    <div class="role-pop-card" role="dialog" aria-modal="true" aria-label="Experience details">
+      <button class="role-pop-close" type="button" aria-label="Close">×</button>
+      <div class="role-pop-content"></div>
+    </div>
+  </div>
+
+  <script src="js/nav.js"></script>
+  <script src="js/work.js"></script>
+</body>
+</html>

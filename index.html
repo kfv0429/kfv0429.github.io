@@ -1,159 +1,260 @@
 <!DOCTYPE html>
+<!-- ═══════════════════════════════════════════════════════════════
+     index.html — the homepage
+
+     This file holds the CONTENT (words, links, photos).
+       • Looks / colours / sizes  → home.css
+       • Click behaviour + the text inside each detail card → home.js
+
+     Sections, top to bottom:
+       1. <head>    page title + fonts + stylesheet
+       2. Header    your name, subtitle, nav links
+       3. Intro     the one-sentence intro
+       4. Five things  the row of icon buttons
+       5. Stage     photo collage / detail card
+       6. Footer
+
+     Tip: everything inside a comment block like this one is ignored by browsers.
+     ═══════════════════════════════════════════════════════════════ -->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <!-- Makes the page scale properly on phones. Don't remove. -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Text shown on the browser tab. -->
   <title>Rongpeng Zhou</title>
-  <link rel="stylesheet" href="style.css">
+
+  <!-- Google Fonts: Pangolin (your name, titles), Patrick Hand (icon labels)
+       and ZCOOL KuaiLe (your Chinese name, since Pangolin has no Chinese characters).
+       To try a different font: pick one at fonts.google.com, replace the
+       family= part of this link, then update font-family in home.css. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Pangolin&family=Patrick+Hand&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+
+  <!-- All the styling for this page. -->
+  <link rel="stylesheet" href="css/home.css">
 </head>
 <body>
-  <main class="container">
 
-    <section class="intro">
-      <h1>Rongpeng Zhou</h1>
+  <!-- Everything above the footer lives inside .page (max width + side padding set in home.css). -->
+  <main class="page home">
 
-      <div class="photos">
-        <img src="Baddyphotos/Walter.jpg" alt="Photo 1">
-        <img src="Baddyphotos/peru.JPG" alt="Badminton Photo2">
-        <img src="Baddyphotos/mexico.JPG" alt="Badminton Photo 3">
-        <img src="Baddyphotos/MasterHa.jpg" alt="  Photo 4">
+    <!-- ───────── Header: name + nav ─────────
+         The <u> around your name draws the highlighter band
+         (styled in section 10 of home.css). Remove <u></u> to drop it.
 
+         Your name is a button: clicking it swaps between the two names below
+         (the swap itself happens in home.js).
+           data-en = English name
+           data-zh = Chinese name   ← TODO: type your Chinese name here
+         The text inside <u> is what shows when the page first loads, so keep
+         it the same as data-en. -->
+    <header class="top">
+      <!-- Top bar: small name (links back to the homepage) on the left,
+           nav links on the right. Styled in section 3 of home.css. -->
+      <div class="topbar">
+        <a class="home-link" href="index.html">Rongpeng Zhou</a>
+
+        <!-- Nav links. about.html and play.html don't exist yet; create them when you're ready.
+             To add a page: copy one <a> line, change href (the file) and the text.
+             Remember to update the "Pages" list in the footer too. -->
+        <nav class="nav" aria-label="Main">
+          <a href="about.html">About</a>
+          <a href="work.html">Work</a>
+          <a href="play.html">Play</a>
+          <!-- Contact dropdown: clicking "Contact" opens a small menu with these
+               links (the open/close is in js/nav.js, styles in section 3 of home.css).
+               To add a link, copy one <a> line inside .contact-list. -->
+          <div class="contact-menu">
+            <button class="contact-toggle" type="button" aria-expanded="false" aria-controls="contact-list">Contact <span class="caret" aria-hidden="true">▾</span></button>
+            <div class="contact-list" id="contact-list" hidden>
+              <a href="mailto:ares.rongpeng.zhou07@gmail.com">Email</a>
+              <a href="https://www.linkedin.com/in/zhourongpeng" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+        </nav>
       </div>
-      <section>
-        <div class="item">
-            <h3> Accounting and Business Analytics @ University of Minnesota</h3>
+
+      <!-- Big underlined name + subtitle, below the top bar. -->
+      <div class="who">
+        <h1 class="name">
+          <button class="name-toggle" id="name-toggle" type="button"
+                  data-en="Rongpeng Zhou"
+                  data-zh="周荣彭"
+                  title="Click me!"><u id="name-text">Rongpeng Zhou</u></button>
+        </h1>
+        <!-- Subtitle under your name: edit the text freely.
+             "Accounting" links to your coursework page (accounting.html) and
+             gets the highlighter band from the <u>. To do the same for
+             "Business Analytics", wrap it the same way and point it at a new page. -->
+        <p class="study"><a href="accounting.html"><u>Accounting</u></a> + Business Analytics @ UMN</p>
+      </div>
+    </header>
+
+    <!-- ───────── Two-column area ─────────
+         On computers (900px wide or more): everything in .home-left (intro,
+         hint, icons) sits on the LEFT, and the stage (photo gallery / card)
+         sits on the RIGHT. On phones and narrow windows they stack, one
+         above the other. Layout is in section 6b of home.css. -->
+    <div class="home-split">
+    <div class="home-left">
+
+    <!-- ───────── Intro ─────────
+         Wrap any word or phrase in <u>…</u> to give it the highlighter band.
+         Line breaks here don't matter; the browser wraps the text automatically.
+
+         The three highlighted words are buttons, just like the five icons:
+         clicking one swaps the photo collage for a card explaining why you
+         chose that word. Click it again (or press Esc) to go back.
+         Each data-key must match a key in ITEMS inside home.js, which is
+         where the card's title, photo and text live.
+         To make another word clickable, wrap it like the ones below with a
+         new data-key, and add a matching entry in ITEMS. -->
+    <!-- The intro has two parts:
+           <span class="lead">  the big headline (the three words), and
+           the rest             the smaller grey line after it.
+         class="fancy" gives a word the special slanted font. Move it to a
+         different <u> (or add it to more) to change which words get it.
+         Styles are in section 4 of home.css. -->
+    <p class="intro">
+      <span class="lead">A <button class="trait-word" data-key="problemsolver" aria-pressed="false"><u>problem solver</u></button>,
+      <button class="trait-word" data-key="listener" aria-pressed="false"><u>listener</u></button> and
+      <button class="trait-word" data-key="storyteller" aria-pressed="false"><u class="fancy">storyteller</u></button>.</span>
+      Making genuine, meaningful connections in an increasingly disconnected world.
+    </p>
+
+    <!-- The written hint is switched off: the icons now do a little wiggle
+         when the page loads instead (section 5 of home.css).
+         To bring the hint back, move the line below out of this comment.
+    <p class="hint">try tapping anything underlined</p>
+    -->
+
+    <!-- ───────── The five things ─────────
+         Each button's data-key must match a key in ITEMS inside home.js.
+         That's how clicking "coffee" knows to show the coffee card.
+
+         • <span class="label"> is the icon's name. It's hidden on the page
+           (screen readers still read it); the card title comes from ITEMS.
+         • To change the card's title/description/photo: edit ITEMS in home.js.
+         • To add a 6th thing: copy a whole <li>…</li> block, give it a new
+           data-key (e.g. "music"), and add a matching "music: {…}" entry in home.js.
+
+         The icon pictures live in images/icons/. To change one, replace the
+         PNG there (square, transparent background) or point src at a new file.
+    -->
+    <ul class="five" aria-label="Five things that make me, me">
+      <li>
+        <button class="thing" data-key="coffee" aria-pressed="false">
+          <span class="icon"><img src="images/icons/coffee.png" alt=""></span>
+          <span class="label">Coffee</span>
+        </button>
+      </li>
+      <li>
+        <button class="thing" data-key="fuji" aria-pressed="false">
+          <span class="icon"><img src="images/icons/camera.png" alt=""></span>
+          <span class="label">Photography</span>
+        </button>
+      </li>
+      <li>
+        <button class="thing" data-key="headphones" aria-pressed="false">
+          <span class="icon"><img src="images/icons/headphones.png" alt=""></span>
+          <span class="label">Music</span>
+        </button>
+      </li>
+      <li>
+        <button class="thing" data-key="icecream" aria-pressed="false">
+          <span class="icon"><img src="images/icons/icecream.png" alt=""></span>
+          <span class="label">Foodie</span>
+        </button>
+      </li>
+      <li>
+        <button class="thing" data-key="badminton" aria-pressed="false">
+          <span class="icon"><img src="images/icons/badminton.png" alt=""></span>
+          <span class="label">Badminton</span>
+        </button>
+      </li>
+    </ul>
+
+    </div><!-- /.home-left -->
+
+    <!-- ───────── Stage: shows the collage OR a detail card ─────────
+         Only one of the two is visible at a time; home.js switches between them. -->
+    <section class="stage" id="stage" aria-live="polite">
+
+      <!-- Collage. TODO: swap these for whatever photos you pick.
+           The layout is set up for exactly 6 tiles (see .collage in home.css).
+           Tile 1 is the big one, tile 3 is the tall one (a portrait photo works
+           best there), and tile 6 is the wide one.
+
+           To change a photo: put the image in the images/collage folder and update src.
+           File names are case-sensitive once the site is online (.JPG ≠ .jpg).
+           alt = a short description for screen readers; update it to match the photo. -->
+      <div class="collage" id="collage">
+        <figure class="tile"><img src="images/collage/badminton-gym.jpg" alt="Jumping for a smash in front of a crowd"></figure>
+        <figure class="tile"><img src="images/collage/barcelona-croissant.jpg" alt="A croissant in Barcelona"></figure>
+        <figure class="tile"><img src="images/collage/aurora-pink.jpg" alt="Pink and green northern lights over a lake"></figure>
+        <figure class="tile"><img src="images/collage/peru.JPG" alt="Sunset over the coast"></figure>
+        <figure class="tile"><img src="images/collage/MasterHa.jpg" alt="A plate of food"></figure>
+        <figure class="tile"><img src="images/collage/shoe-wire.jpg" alt="Sneakers hanging from a wire between the trees"></figure>
+      </div>
+
+      <!-- Detail card: filled in by home.js when a thing is clicked.
+           These elements are empty on purpose; don't type content here,
+           edit ITEMS in home.js instead. The ids must stay the same. -->
+      <article class="detail" id="detail" hidden>
+        <div class="detail-photo" id="detail-photo"></div>
+        <div class="detail-text">
+          <p class="detail-meta" id="detail-meta"></p>
+          <h2 class="detail-title" id="detail-title"></h2>
+          <p class="detail-desc" id="detail-desc"></p>
         </div>
-    </section>
-      <p class="subtitle">
-         Hey there! My name is Rongpeng/Ares and I'm a rising sophmore at the Carlson School of Management. 
-            I'm an aspiring accountant with interests in Audit, Tax, Statistics and Financial Analysis. 
-
-         I'm currently completing my requirements to become CPA eligible. 
-      </p>
-
-      <section>
-        <p class="subtitle">
-            In my free time, I like to travel/explore, run, play badminton, cook and eat yummy food!
-        </p>
-      </section>
-
-      <div class="links">
-        <a href="mailto:ares.rongpeng.zhou07@gmail.com">Email</a> | 
-        <a href="https://www.linkedin.com/in/zhourongpeng" target="_blank">Linkedin</a> | 
-        <a href="https://beliapp.co/app/kfv" target="blank">Beli</a> 
-      </div>
-    </section>
-
-  
-
-    <section>
-      <h2> Experience</h2>
-
-       <div class="item">
-        <div class="company">
-          <h3>Fuyao Automotive North America - Accounting Intern</h3>
-          <img src="Logos/Fuyao.png" alt="Fuyao logo" class="company-logo" id="fuyao-logo">
-        </div>
-        <p class="date">May 2026 - Present</p>
-        <ul>
-          <li>Supporting month-end close and preparation of the Balance Sheet, Income Statement, and Cash Flow Statement.</li>
-          <li>Determining inventory costs and ending inventory by applying FIFO in accordance with GAAP.</li>
-          <li>Using Oracle ERP system to track AP/AR, invoices and reconciliations.</li>
-        </ul>
-        <div class="links">
-          <a href="https://fuyaousa.com/" target="_blank">Fuyao USA</a> | <a href="https://www.fuyaogroup.com/en/" target="_blank">Fuyao Group</a>
-        </div>
-      </div>
-
-      <div class="item">
-        <div class="company">
-        <h3>Mandarin Badminton - Assistant Coach</h3>
-          <img src="Logos/Mandarin Badminton.png" alt="Mandarin Logo" class="company-logo">
-        </div>
-        <p class="date">January 2023 - August 2025</p>
-        <ul>
-          <li>Led structured training sessions to simulate tournament strategies, sharpening in-game decision-making.</li>
-          <li>Supported practical sparring sessions by providing real-time constructive feedback</li>
-          <li>Built strong time management and attention to detail.</li>
-        </ul>
-        <div class="links">
-                <a href="https://mandarinbadminton.com/" target="_blank">Mandarin Badminton</a> 
-      </div>
-      </div>
-    </section>
-
-    <section>
-  <h2>Leadership & Activities</h2>
-
-  <div class="item">
-      <div class="company">
-        <h3>Minnesota Badminton - Vice President/Tournament Organizer</h3>
-        <img src="Logos/MN badminton Logo.jpg" alt="MN Badminton Logo" class="company-logo">
-      </div>
-      <p class="date">January 2026 - Present</p>
-      <ul>
-        <li>Lead planning for the Minnesota Open, managing a $30,000+ budget to coordinate venue rental, prizes and other tournament related expenses.</li>
-      </ul>
-      <div class="links">
-        <a href="https://www.minnesotabadminton.com/" target="_blank">Minnesota Badminton</a>
-      </div>
-    </div>
-
-    <div class="item">
-      <div class="company">
-        <h3>Badminton Canada - Junior National Team Member</h3>
-        <img src="Logos/BCAN logo.png" alt="BCAN Logo" class="company-logo">
-      </div>
-      <p class="date">June 2018 - August 2026</p>
-      <ul>
-        <li>35+ National Titles, 2 Pan American Gold Medals, 9 Pan American Podium Finishes</li>
-      </ul>
-      <div class="links">
-        <a href="https://www.badminton.ca/" target="_blank">Badminton Canada</a>
-      </div>
-    </div>
-  </section>
-
-    <section>
-      <h2>Skills</h2>
-
-      <div class="skills">
-        <span>Microsoft Excel</span>
-        <span>Microsoft Word</span>
-        <span>Microsoft Powerpoint</span>
-        <span>Oracle ERP</span>
-        <span>Quickbooks</span>
-        <span>R/R Studio</span>
-        <span>Power BI</span>
-        <span>SQL</span>
-      </div>
-    </section>
-
-    <section>
-        <h2>Relavent Coursework</h2>
-        <div class="item">
-            Accounting:   <span>Introduction to Financial Reporting,</span>
-        <span>Mangerial Accounting,</span>
-        <span>Intermediate Accounting I</span>
-        </div>
-
-        <div class="item">
-            Business:  <span>Business Scenario's in Excel,</span>
-        <span>Business Statistics in R</span>
-        </div>
+      </article>
 
     </section>
 
-    <section>
-      <h2>Contact</h2>
-      <p>
-        Thank you for taking the time to get to know me better.
-        Feel free to reach out if you have any questions by <a href="mailto:ares.rongpeng.zhou07@gmail.com">Email</a> 
-        or connecing with me on <a href="https://www.linkedin.com/in/zhourongpeng" target="_blank">Linkedin</a>.
-      </p>
-    </section>
+    </div><!-- /.home-split -->
 
   </main>
 
+  <!-- ───────── Footer ───────── -->
+  <footer class="site-footer">
+    <div class="footer-top">
+      <p class="footer-name">Rongpeng Zhou</p>
+
+      <div class="footer-cols">
+        <!-- Contact links. To add one (e.g. Instagram, GitHub), copy the LinkedIn line
+             and change the href and text. target="_blank" opens it in a new tab. -->
+        <div class="footer-col">
+          <p class="footer-label">Let's Connect</p>
+          <a href="mailto:ares.rongpeng.zhou07@gmail.com">Email</a>
+          <a href="https://www.linkedin.com/in/zhourongpeng" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a>
+        </div>
+
+        <!-- Keep this list in sync with the nav links at the top. -->
+        <div class="footer-col">
+          <p class="footer-label">Pages</p>
+          <a href="about.html">About</a>
+          <a href="work.html">Work</a>
+          <a href="play.html">Play</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <!-- TODO: edit this message to whatever you like.
+           (&amp; is how you write "&" in HTML.) -->
+      <p class="footer-note">Built with unhealthy amounts of coffee &amp; love</p>
+      <!-- The year updates itself automatically (see the end of home.js);
+           2026 is only a fallback. -->
+      <p class="footer-note">© <span id="year">2026</span> Rongpeng Zhou</p>
+    </div>
+  </footer>
+
+  <!-- Loads the click behaviour. Keep this at the end of <body> so the page
+       content exists before the script runs. -->
+  <script src="js/home.js"></script>
+  <script src="js/nav.js"></script>
 </body>
 </html>
